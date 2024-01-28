@@ -1,1 +1,0 @@
-import t from"./AdminLayout-O1yCP-f3.js";import{o,c as e,w as r,f as a}from"./app-X52fPrqC.js";import"./Navbar-FIFbzNWO.js";import"./_plugin-vue_export-helper-x3n3nnut.js";import"./Sidebar-wCs9lSxp.js";const f={__name:"Dashboard",setup(c){return(s,_)=>(o(),e(t,null,{default:r(()=>[a(" Hello ")]),_:1}))}};export{f as default};

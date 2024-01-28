@@ -1,5 +1,5 @@
 <template>
-    <section class="antialiased bg-white dark:bg-gray-900">
+    <section class="antialiased bg-gray-50 h-screen dark:bg-gray-900">
         <!-- Navbar start -->
         <Navbar />
         <!-- Navbar end -->
@@ -9,7 +9,7 @@
         <!-- Sidebar end -->
 
         <!-- Main start -->
-        <main class="p-4 md:ml-64 h-auto pt-20">
+        <main class="p-4 md:ml-56 h-auto pt-20">
             <slot />
         </main>
         <!-- Main start -->
