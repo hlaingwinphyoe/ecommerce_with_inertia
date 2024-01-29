@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -16,13 +18,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+Route::get('/', [UserController::class, 'index'])->name('home');
+
+// add to cart
+Route::prefix('cart')->controller(CartController::class)->group(function () {
+    Route::get('/view', 'view')->name('cart.view');
+    Route::post('/store/{product}', 'store')->name('cart.store');
+    Route::patch('/update/{product}', 'update')->name('cart.update');
+    Route::delete('/delete/{product}', 'delete')->name('cart.delete');
 });
 
 Route::get('/dashboard', function () {
@@ -35,4 +38,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
