@@ -1,27 +1,25 @@
 <template>
-    <nav class="bg-white border-gray-200 dark:bg-gray-900 z-50">
+    <nav
+        class="bg-white border-gray-200 dark:bg-gray-900 z-50 shadow fixed top-0 w-full"
+    >
         <div
-            class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
+            class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-3"
         >
-            <a
-                href="https://flowbite.com/"
+            <Link
+                href="/"
                 class="flex items-center space-x-3 rtl:space-x-reverse"
             >
-                <img
-                    src="https://flowbite.com/docs/images/logo.svg"
-                    class="h-8"
-                    alt="Flowbite Logo"
-                />
+                <ApplicationLogo class="h-9" />
                 <span
                     class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-                    >Flowbite</span
+                    >X Mall</span
                 >
-            </a>
+            </Link>
             <div
                 class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse"
             >
-                <button
-                    type="button"
+                <Link
+                    :href="route('cart.view')"
                     class="relative inline-flex items-center text-sm font-medium text-center focus:ring-4 focus:outline-none focus:ring-blue-300 mr-4"
                 >
                     <svg
@@ -52,9 +50,9 @@
                     <div
                         class="absolute inline-flex items-center justify-center w-5 h-5 text-[9px] font-bold text-white bg-red-500 border-2 border-white rounded-full -top-2.5 -end-2"
                     >
-                        20
+                        {{ cart.data.count }}
                     </div>
-                </button>
+                </Link>
 
                 <div v-if="canLogin">
                     <div v-if="auth.user">
@@ -134,6 +132,7 @@
                             >Login
                         </Link>
                         <Link
+                            href="/register"
                             v-if="canRegister"
                             class="relative inline-flex items-center justify-center p-0.5 mb-2 me-2 overflow-hidden text-sm font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-green-400 to-blue-600 group-hover:from-green-400 group-hover:to-blue-600 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-green-200 dark:focus:ring-green-800"
                         >
@@ -196,9 +195,12 @@
 </template>
 
 <script setup>
+import ApplicationLogo from "@/Components/ApplicationLogo.vue";
 import { Link, usePage } from "@inertiajs/vue3";
+import { computed } from "vue";
 
 const canLogin = usePage().props.canLogin;
 const canRegister = usePage().props.canRegister;
 const auth = usePage().props.auth;
+const cart = computed(() => usePage().props.cart);
 </script>

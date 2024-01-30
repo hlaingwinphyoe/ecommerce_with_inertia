@@ -1,0 +1,1 @@
+import{i as o}from"./index-_OmQQOYu.js";import t from"./Header-bCCaE-4o.js";import{h as a,o as s,b as r,a as n,e as c,r as i}from"./app-9bdSW4XQ.js";import"./ApplicationLogo-Ovk17bOT.js";const m={class:"pt-16"},h={__name:"UserLayout",setup(l){return a(()=>{o()}),(e,_)=>(s(),r("section",null,[n(t),c("main",m,[i(e.$slots,"default")])]))}};export{h as default};

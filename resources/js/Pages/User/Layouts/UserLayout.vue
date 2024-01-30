@@ -4,10 +4,10 @@
         <Header></Header> 
 
         <!-- Hero -->
-        <Hero />
+        <!-- <Hero /> -->
 
         <!-- Main -->
-        <main>
+        <main class="pt-16">
             <slot />
         </main>
 
