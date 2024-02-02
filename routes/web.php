@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\CartController;
+use App\Http\Controllers\User\ProductListController;
 use App\Http\Controllers\User\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -27,6 +28,12 @@ Route::prefix('cart')->controller(CartController::class)->group(function () {
     Route::patch('/update/{product}', 'update')->name('cart.update');
     Route::delete('/delete/{product}', 'delete')->name('cart.delete');
 });
+
+// products
+Route::prefix('products')->name('products.')->controller(ProductListController::class)->group(function () {
+    Route::get('/', 'index')->name('index');
+});
+
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
