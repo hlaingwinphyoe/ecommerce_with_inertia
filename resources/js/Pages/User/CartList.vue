@@ -148,53 +148,84 @@
                     Total - $ {{ total }}
                 </p>
 
-                <h2 class="text-gray-900 text-lg mb-1 font-medium title-font">
-                    Address 1
-                </h2>
-                <p class="leading-relaxed mb-5 text-gray-600">
-                    Post-ironic portland shabby chic echo park, banjo fashion
-                    axe
-                </p>
-                <p class="leading-relaxed mb-5 text-gray-600">
-                    Or add another address
-                </p>
-                <div class="relative mb-4">
-                    <label for="name" class="leading-7 text-sm text-gray-600"
-                        >Address</label
+                <div v-if="userAddress">
+                    <h2
+                        class="text-gray-900 text-lg mb-1 font-medium title-font"
                     >
-                    <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
+                        Shipping Address 1
+                    </h2>
+                    <p class="leading-relaxed mb-5 text-gray-600">
+                        {{ userAddress.address1 }}, {{ userAddress.city }}
+                    </p>
+                    <p class="leading-relaxed mb-5 text-gray-600">
+                        Or add another address
+                    </p>
                 </div>
-                <div class="relative mb-4">
-                    <label for="email" class="leading-7 text-sm text-gray-600"
-                        >Email</label
-                    >
-                    <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 text-base outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
-                    />
-                </div>
-                <div class="relative mb-4">
-                    <label for="message" class="leading-7 text-sm text-gray-600"
-                        >Message</label
-                    >
-                    <textarea
-                        id="message"
-                        name="message"
-                        class="w-full bg-white rounded border border-gray-300 focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 h-32 text-base outline-none text-gray-700 py-1 px-3 resize-none leading-6 transition-colors duration-200 ease-in-out"
-                    ></textarea>
-                </div>
-                <button
-                    class="text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded text-lg w-full"
-                >
-                    Checkout
-                </button>
+
+                <form @submit.prevent="submitForm">
+                    <div class="relative mb-4">
+                        <InputLabel for="address" value="Address" />
+                        <TextInput
+                            id="address"
+                            v-model="form.address"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+                    <div class="relative mb-4">
+                        <InputLabel for="city" value="City" />
+                        <TextInput
+                            id="city"
+                            v-model="form.city"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+                    <div class="relative mb-4">
+                        <InputLabel for="state" value="State" />
+                        <TextInput
+                            id="state"
+                            v-model="form.state"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+                    <div class="relative mb-4">
+                        <InputLabel for="zipcode" value="Zipcode" />
+                        <TextInput
+                            id="zipcode"
+                            v-model="form.zipcode"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+                    <div class="relative mb-4">
+                        <InputLabel for="country_code" value="Country Code" />
+                        <TextInput
+                            id="country_code"
+                            v-model="form.country_code"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+                    <div class="relative mb-4">
+                        <InputLabel for="address_type" value="Address Type" />
+                        <TextInput
+                            id="address_type"
+                            v-model="form.address_type"
+                            class="mt-1 w-full"
+                        />
+                    </div>
+                    <div class="w-full pt-3">
+                        <PrimaryButton
+                            v-if="formFilled || userAddress"
+                            class="w-full py-2.5 justify-center"
+                        >
+                            Checkout
+                        </PrimaryButton>
+                        <SecondaryButton
+                            v-else
+                            class="w-full py-2.5 bg-green-700 hover:bg-green-600 text-white justify-center"
+                        >
+                            Add Address
+                        </SecondaryButton>
+                    </div>
+                </form>
                 <p class="text-xs text-gray-500 mt-3">Happy Shopping</p>
             </div>
         </div>
@@ -203,12 +234,20 @@
 
 <script setup>
 import { router, usePage } from "@inertiajs/vue3";
-import { computed } from "vue";
+import { computed, reactive } from "vue";
 import UserLayout from "./Layouts/UserLayout.vue";
+import TextInput from "@/Components/TextInput.vue";
+import InputLabel from "@/Components/InputLabel.vue";
+import PrimaryButton from "@/Components/PrimaryButton.vue";
+import SecondaryButton from "@/Components/SecondaryButton.vue";
 const products = computed(() => usePage().props.cart.data.products);
 const carts = computed(() => usePage().props.cart.data.items);
 
 const total = computed(() => usePage().props.cart.data.total);
+
+defineProps({
+    userAddress: Object,
+});
 
 const itemId = (id) => carts.value.findIndex((item) => item.product_id === id);
 
@@ -220,6 +259,39 @@ const update = (product, quantity) => {
 
 const onRemove = (product) => {
     router.delete(route("cart.delete", product));
+};
+
+// add address
+const form = reactive({
+    address: "",
+    city: "",
+    state: "",
+    zipcode: "",
+    country_code: "",
+    address_type: "",
+});
+
+const formFilled = computed(() => {
+    return (
+        form.address !== "" &&
+        form.city !== "" &&
+        form.state !== "" &&
+        form.zipcode !== "" &&
+        form.country_code !== "" &&
+        form.address_type !== ""
+    );
+});
+
+const submitForm = () => {
+    router.visit(route("checkout.store"), {
+        method: "post",
+        data: {
+            carts: usePage().props.cart.data.items,
+            products: usePage().props.cart.data.products,
+            total: usePage().props.cart.data.total,
+            address: form,
+        },
+    });
 };
 </script>
 
