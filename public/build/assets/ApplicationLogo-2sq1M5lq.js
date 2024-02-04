@@ -1,1 +1,0 @@
-import{o as a,b as o,n as c}from"./app-Rd7hwCIv.js";const r={__name:"ApplicationLogo",props:{class:String},setup(s){return(l,n)=>(a(),o("img",{src:"/logo.png",class:c(s.class),alt:""},null,2))}};export{r as _};

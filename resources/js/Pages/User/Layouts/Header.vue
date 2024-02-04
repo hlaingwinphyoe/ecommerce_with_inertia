@@ -86,17 +86,24 @@
                             <div class="px-4 py-3">
                                 <span
                                     class="block text-sm text-gray-900 dark:text-white"
-                                    >Bonnie Green</span
+                                    >{{ auth.user.name }}</span
                                 >
                                 <span
                                     class="block text-sm text-gray-500 truncate dark:text-gray-400"
-                                    >name@flowbite.com</span
+                                    >{{ auth.user.email }}</span
                                 >
                             </div>
                             <ul class="py-2" aria-labelledby="user-menu-button">
                                 <li>
                                     <Link
-                                        href="/admin/dashboard"
+                                        v-if="route('dashboard')"
+                                        :href="route('home')"
+                                        class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
+                                        >Home
+                                    </Link>
+                                    <Link
+                                        v-else
+                                        :href="route('dashboard')"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
                                         >Dashboard
                                     </Link>
@@ -116,10 +123,11 @@
                                     >
                                 </li>
                                 <li>
-                                    <a
-                                        href="#"
+                                    <Link
+                                        :href="route('logout')"
+                                        method="post"
                                         class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                        >Sign out</a
+                                        >Sign out</Link
                                     >
                                 </li>
                             </ul>
